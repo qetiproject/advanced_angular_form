@@ -22,31 +22,7 @@ import { ValidatorMessageContainer } from '../../../core/input-error/validator-m
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplateFormsPageComponent implements OnInit, AfterViewInit {
-
-  userInfo: UserInfo = {
-    firstName: 'Dmytro',
-    lastName: 'Mezhenskyi',
-    nickname: 'dmytro.mezhenkyi',
-    email: 'dmytro@decodedfrontend.io',
-    yearOfBirth: 1991,
-    passport: 'AB123456',
-    fullAdress: 'Somestreet 4',
-    city: 'Kharkiv',
-    postCode: 123456,
-    password: '',
-    confirmPassword: ''
-  }
-
-  @ViewChild(NgForm)
-  formDir!: NgForm;
-
-  private initialFormValues: unknown;
-
-  get isAdult() {
-    const currentYear = new Date().getFullYear();
-    return currentYear - this.userInfo.yearOfBirth >= 18;
-  }
+export class TemplateFormsPageComponent implements OnInit {
 
   get years() {
     const now = new Date().getUTCFullYear();
@@ -56,27 +32,8 @@ export class TemplateFormsPageComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
   }
 
-  ngAfterViewInit(): void {
-    queueMicrotask(() => {
-      this.initialFormValues = this.formDir.value;
-    })
-  }
+  onSubmitForm(e: SubmitEvent) {}
 
-  onSubmitForm(e: SubmitEvent) {
-    if (this.formDir.invalid) return;
-    console.log('The form has been submitted', this.formDir.value);
-    // Strategy 1 - Reset form values, validation statuses, making controls untouched, pristine, etc
-    // form.resetForm();
-    // Strategy 2 - Reset only control statuses but not values.
-    this.formDir.resetForm(this.formDir.value);
-    this.initialFormValues = this.formDir.value;
-    // console.log('The native submit event', e);
-
-  }
-
-  onReset(e: Event) {
-    e.preventDefault();
-    this.formDir.resetForm(this.initialFormValues);
-  }
+  onReset(e: Event) {}
 
 }

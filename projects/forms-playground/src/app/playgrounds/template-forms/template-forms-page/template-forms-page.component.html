@@ -1,13 +1,7 @@
-<form class="form" [ngFormOptions]="{ updateOn: 'submit' }" #form="ngForm" (reset)="onReset($event)" (ngSubmit)="onSubmitForm($event)">
+<form class="form">
   <div class="form-field">
     <label for="name">First Name</label>
     <input
-      [(ngModel)]="userInfo.firstName"
-      required
-      minlength="2"
-      appBanWords="test"
-      #firstName="ngModel"
-      name="first-name"
       type="text"
       id="name"
       placeholder="Enter your name">
@@ -15,11 +9,6 @@
   <div class="form-field">
     <label for="last-name">Last Name</label>
     <input
-      [(ngModel)]="userInfo.lastName"
-      required
-      minlength="2"
-      #lastName="ngModel"
-      name="last-name"
       type="text"
       id="last-name"
       placeholder="Enter your last name">
@@ -27,28 +16,14 @@
   <div class="form-field">
     <label for="nickname">Nickname</label>
     <input
-      [(ngModel)]="userInfo.nickname"
-      [ngModelOptions]="{ updateOn: 'blur' }"
-      required
-      minlength="3"
-      pattern="^[\w.]+$"
-      [appBanWords]="isAdult ? ['test', 'test_test', 'dummy'] : []"
-      appUniqueNickname
-      name="nickname"
-      #nickname="ngModel"
       type="text"
       id="nickname"
       placeholder="Come up with a nickname">
-    <div *ngIf="nickname.pending" class="input-info">Checking...</div>
+    <div class="input-info">Checking...</div>
   </div>
   <div class="form-field">
     <label for="email">Email</label>
     <input
-      [(ngModel)]="userInfo.email"
-      email
-      required
-      #email="ngModel"
-      name="email"
       type="email"
       id="email"
       placeholder="Provide your email">
@@ -56,18 +31,13 @@
   <div class="form-field-inline-group">
     <div class="form-field form-field--small">
       <label for="year-of-birth">Year of birth</label>
-        <select #yearOfBirth="ngModel" required id="year-of-birth" [(ngModel)]="userInfo.yearOfBirth" name="year-of-birth">
+        <select required id="year-of-birth"  name="year-of-birth">
         <option *ngFor="let year of years" [value]="year">{{year}}</option>
       </select>
     </div>
     <div class="form-field form-field--small">
       <label for="passport">Passport Number</label>
       <input
-        [(ngModel)]="userInfo.passport"
-        pattern="^[A-Z]{2}[0-9]{6}$"
-        [required]="isAdult"
-        #passport="ngModel"
-        name="passport"
         type="text"
         id="passport"
         placeholder="Provide Passport Data">
@@ -78,10 +48,6 @@
     <div class="form-field">
       <label for="full-address">Full Adress</label>
       <input
-        [(ngModel)]="userInfo.fullAdress"
-        required
-        #fullAdress="ngModel"
-        name="full-address"
         type="text"
         id="full-address"
         placeholder="Street name and house number">
@@ -89,10 +55,6 @@
     <div class="form-field">
       <label for="city">City</label>
       <input
-        [(ngModel)]="userInfo.city"
-        required
-        #city="ngModel"
-        name="city"
         type="text"
         id="city"
         placeholder="City">
@@ -100,10 +62,6 @@
     <div class="form-field">
       <label for="post-code">Post Code</label>
       <input
-        [(ngModel)]="userInfo.postCode"
-        required
-        #postCode="ngModel"
-        name="post-code"
         type="number"
         id="post-code"
         placeholder="Post code">
@@ -114,11 +72,6 @@
     <div class="form-field">
       <label for="password">Password</label>
       <input
-        [(ngModel)]="userInfo.password"
-        required
-        minlength="6"
-        #password="ngModel"
-        name="password"
         type="password"
         id="password"
         placeholder="Enter user's password">
@@ -126,10 +79,6 @@
     <div class="form-field">
       <label for="confirm-password">Confirm password</label>
       <input
-        withoutValidationErrors
-        [(ngModel)]="userInfo.confirmPassword"
-        #confirmPassword="ngModel"
-        name="confirm-password"
         type="password"
         id="confirm-password"
         placeholder="Confirm the password">
