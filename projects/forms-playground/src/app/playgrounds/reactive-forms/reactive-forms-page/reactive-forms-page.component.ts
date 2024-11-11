@@ -1,13 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
-import { DynamicValidatorMessage } from "../../../core/dynamic-validator-message.directive";
-import { ValidatorMessageContainer } from "../../../core/input-error/validator-message-container.directive";
+import { formControl } from "@angular/core/schematics/migrations/typed-forms/util";
+import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
     selector: 'app-reactive-forms-page',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, DynamicValidatorMessage, ValidatorMessageContainer],
+    imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './reactive-forms-page.component.html',
     styleUrls: [
       '../../common-page.scss',
@@ -17,6 +16,16 @@ import { ValidatorMessageContainer } from "../../../core/input-error/validator-m
     changeDetection: ChangeDetectionStrategy.OnPush
   })
   export class ReactiveFormsPageComponent implements OnInit, OnDestroy {
+    form = new FormGroup({
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
+      nickname: new FormControl(''),
+      email: new FormControl(''),
+      passport: new FormControl(''),
+      city: new FormControl(''),
+      postCode:  new FormControl(''),
+      address: new FormControl('')
+    })
     ngOnInit(): void {
         throw new Error("Method not implemented.");
     }
