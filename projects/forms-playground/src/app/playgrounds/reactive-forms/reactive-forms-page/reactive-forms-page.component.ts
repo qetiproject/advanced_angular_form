@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from "@angular/core";
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
     selector: 'app-reactive-forms-page',
@@ -25,13 +25,24 @@ import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
         fullAddress: new FormControl(''),
         city: new FormControl(''),
         postCode:  new FormControl(''),
-      })
+      }),
+      phones: new FormArray([
+        new FormControl('')
+      ])
     })
-    
+
     ngOnInit(): void {
         throw new Error("Method not implemented.");
     }
     ngOnDestroy(): void {
         throw new Error("Method not implemented.");
+    }
+
+    addPhone() {
+      this.form.controls.phones.insert(0, new FormControl(''))
+    }
+
+    removePhone(index: number) {
+      this.form.controls.phones.removeAt(index)
     }
 }

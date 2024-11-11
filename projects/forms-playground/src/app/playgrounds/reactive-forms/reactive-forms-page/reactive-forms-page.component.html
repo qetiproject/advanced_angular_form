@@ -46,10 +46,15 @@
         <input formControlName="postCode" type="number" id="post-code" placeholder="Post code">
       </div>
     </fieldset>
-    <fieldset >
+    <fieldset formArrayName="phones">
       <legend>Phones</legend>
       <div class="control-buttons">
-        <button class="add-button"  type="button">+</button>
+        <button class="add-button" (click)="addPhone()" type="button">+</button>
+      </div>
+      <div class="form-field" *ngFor="let phone of form.controls.phones.controls; index as i">
+        <label for="phone-{{i}}">Phone number</label>
+        <input [formControlName]="i" type="text" placeholder="Enter Phone Number" id="phone-{{i}}" />
+        <button class="add-button" (click)="removePhone(i)" type="button">-</button>
       </div>
     </fieldset>
     <fieldset>
