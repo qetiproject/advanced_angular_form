@@ -14,7 +14,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
   })
-  export class ReactiveFormsPageComponent implements OnInit, OnDestroy {
+  export class ReactiveFormsPageComponent implements OnInit {
     form = new FormGroup({
       firstName: new FormControl(''),
       lastName: new FormControl(''),
@@ -31,12 +31,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
       ])
     })
 
-    ngOnInit(): void {
-        throw new Error("Method not implemented.");
-    }
-    ngOnDestroy(): void {
-        throw new Error("Method not implemented.");
-    }
+    ngOnInit(): void {}
 
     addPhone() {
       this.form.controls.phones.insert(0, new FormControl(''))
@@ -44,5 +39,9 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
 
     removePhone(index: number) {
       this.form.controls.phones.removeAt(index)
+    }
+
+    onSubmit(e: Event) {
+      console.log(this.form.value)
     }
 }
