@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserInfo } from '../../../core/user-info';
@@ -19,7 +19,7 @@ import { UserInfo } from '../../../core/user-info';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplateFormsPageComponent implements OnInit {
- 
+
   userInfo: UserInfo = {
     firstName: 'Dmytro',
     lastName: 'Mezhenskyi',
@@ -42,7 +42,7 @@ export class TemplateFormsPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmitForm(e: SubmitEvent) {
-    console.log(e.target)
+  onSubmitForm(form: any, e: SubmitEvent) {
+    console.log(form.form.value)
   }
 }

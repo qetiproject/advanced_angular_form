@@ -1,10 +1,11 @@
-<form class="form" [ngFormOptions]="{ updateOn: 'submit' }" #form="ngForm" (ngSubmit)="onSubmitForm($event)">
+<form class="form" ngNativeValidate [ngFormOptions]="{ updateOn: 'submit' }" #form="ngForm"  (ngSubmit)="onSubmitForm(form, $event)">
   <div class="form-field">
     <label for="name">First Name</label>
     <input
       [(ngModel)]="userInfo.firstName"
       required
       minlength="2"
+      appBanWords="test"
       #firstName="ngModel"
       name="first-name"
       type="text"
@@ -27,6 +28,7 @@
     <label for="nickname">Nickname</label>
     <input
       [(ngModel)]="userInfo.nickname"
+      [ngModelOptions]="{ updateOn: 'blur' }"
       required
       minlength="3"
       pattern="^[\w.]+$"
@@ -61,6 +63,7 @@
       <input
         [(ngModel)]="userInfo.passport"
         pattern="^[A-Z]{2}[0-9]{6}$"
+        required
         #passport="ngModel"
         name="passport"
         type="text"
@@ -102,6 +105,32 @@
         type="number"
         id="post-code"
         placeholder="Post code">
+    </div>
+  </fieldset>
+  <fieldset ngModelGroup="password" >
+    <legend>User Password</legend>
+    <div class="form-field">
+      <label for="password">Password</label>
+      <input
+        [(ngModel)]="userInfo.password"
+        required
+        minlength="6"
+        #password="ngModel"
+        name="password"
+        type="password"
+        id="password"
+        placeholder="Enter user's password">
+    </div>
+    <div class="form-field">
+      <label for="confirm-password">Confirm password</label>
+      <input
+        withoutValidationErrors
+        [(ngModel)]="userInfo.confirmPassword"
+        #confirmPassword="ngModel"
+        name="confirm-password"
+        type="password"
+        id="confirm-password"
+        placeholder="Confirm the password">
     </div>
   </fieldset>
   <button>Save</button>
