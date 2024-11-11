@@ -1,6 +1,5 @@
 import { CommonModule } from "@angular/common";
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from "@angular/core";
-import { formControl } from "@angular/core/schematics/migrations/typed-forms/util";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
@@ -22,10 +21,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
       nickname: new FormControl(''),
       email: new FormControl(''),
       passport: new FormControl(''),
-      city: new FormControl(''),
-      postCode:  new FormControl(''),
-      address: new FormControl('')
+      address: new FormGroup({
+        fullAddress: new FormControl(''),
+        city: new FormControl(''),
+        postCode:  new FormControl(''),
+      })
     })
+    
     ngOnInit(): void {
         throw new Error("Method not implemented.");
     }
