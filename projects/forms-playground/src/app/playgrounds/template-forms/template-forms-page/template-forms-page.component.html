@@ -67,24 +67,5 @@
         placeholder="Post code">
     </div>
   </fieldset>
-  <fieldset ngModelGroup="password" appPasswordShouldMatch [container]="containerDir.container">
-    <legend>User Password</legend>
-    <div class="form-field">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter user's password">
-    </div>
-    <div class="form-field">
-      <label for="confirm-password">Confirm password</label>
-      <input
-        type="password"
-        id="confirm-password"
-        placeholder="Confirm the password">
-      <ng-container validatorMessageContainer #containerDir="validatorMessageContainer"></ng-container>
-    </div>
-  </fieldset>
   <button>Save</button>
-  <button type="reset" class="reset-button">Reset</button>
 </form>

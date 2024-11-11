@@ -1,9 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { UserInfo } from '../../../core/user-info';
-import { DynamicValidatorMessage } from '../../../core/dynamic-validator-message.directive';
-import { ValidatorMessageContainer } from '../../../core/input-error/validator-message-container.directive';
 
 @Component({
   selector: 'app-template-forms-page',
@@ -11,8 +8,6 @@ import { ValidatorMessageContainer } from '../../../core/input-error/validator-m
   imports: [
     CommonModule,
     FormsModule,
-    DynamicValidatorMessage,
-    ValidatorMessageContainer
   ],
   templateUrl: './template-forms-page.component.html',
   styleUrls: [
@@ -33,7 +28,4 @@ export class TemplateFormsPageComponent implements OnInit {
   }
 
   onSubmitForm(e: SubmitEvent) {}
-
-  onReset(e: Event) {}
-
 }
