@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { UserInfo } from '../../../core/user-info';
 
 @Component({
   selector: 'app-template-forms-page',
@@ -18,6 +19,20 @@ import { FormsModule, NgForm } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplateFormsPageComponent implements OnInit {
+ 
+  userInfo: UserInfo = {
+    firstName: 'Dmytro',
+    lastName: 'Mezhenskyi',
+    nickname: 'dmytro.mezhenkyi',
+    email: 'dmytro@decodedfrontend.io',
+    yearOfBirth: 1991,
+    passport: 'AB123456',
+    fullAdress: 'Somestreet 4',
+    city: 'Kharkiv',
+    postCode: 123456,
+    password: '',
+    confirmPassword: ''
+  }
 
   get years() {
     const now = new Date().getUTCFullYear();
@@ -27,5 +42,7 @@ export class TemplateFormsPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmitForm(e: SubmitEvent) {}
+  onSubmitForm(e: SubmitEvent) {
+    console.log(e.target)
+  }
 }
