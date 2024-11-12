@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from "@angular/core";
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { FormArray, FormControl, FormGroup, FormRecord, ReactiveFormsModule } from "@angular/forms";
 import { Observable, tap } from "rxjs";
 import { UserSkillsService } from "../../../core/user-skills.service";
 
@@ -41,7 +41,8 @@ import { UserSkillsService } from "../../../core/user-skills.service";
           phone: new FormControl('')
         })
       ]),
-      skills: new FormGroup<{[key: string]: FormControl<boolean>}>({})
+      // skills: new FormGroup<{[key: string]: FormControl<boolean>}>({})
+      skills: new FormRecord<FormControl<boolean>>({})
     })
 
 
