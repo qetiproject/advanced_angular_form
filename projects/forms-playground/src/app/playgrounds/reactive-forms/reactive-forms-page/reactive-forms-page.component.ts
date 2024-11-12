@@ -46,18 +46,28 @@ import { UserSkillsService } from "../../../core/user-skills.service";
     // })
 
     form = this.fb.group({
-      firstName: ['Dmytro'],
-      lastName: ['Mezhenskyi'],
-      nickname: [''],
-      email: ['dmytro@decodedfrontend.io'],
+      firstName: ['Dmytro', [Validators.required, Validators.minLength(4)]],
+      lastName: ['Mezhenskyi', [Validators.required, Validators.minLength(2)]],
+      nickname: ['',
+      {
+        validators: [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern(/^[\w.]+$/),
+        ],
+      },
+  
+    ],
+      email: ['dmytro@decodedfrontend.io', [Validators.email, Validators.required]],
       yearOfBirth: this.fb.nonNullable.control(
         this.years[this.years.length - 1],
+        Validators.required
       ),
-      passport: [''],
+      passport: ['', [Validators.pattern(/^[A-Z]{2}[0-9]{6}$/)]],
       address: this.fb.nonNullable.group({
-        fullAddress: [''],
-        city: [''],
-        postCode: [0]
+        fullAddress: ['', Validators.required],
+        city: ['', Validators.required],
+        postCode: [0, Validators.required]
       }),
       phones: this.fb.array([
         this.fb.group({
@@ -69,8 +79,6 @@ import { UserSkillsService } from "../../../core/user-skills.service";
       // password: this.fb.group({
       //   password: ['', [Validators.required, Validators.minLength(6)]],
       //   confirmPassword: ''
-      // }, {
-      //   validators: passwordShouldMatch
       // })
     });
 
