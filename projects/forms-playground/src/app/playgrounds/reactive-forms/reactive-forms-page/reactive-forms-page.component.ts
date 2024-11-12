@@ -3,6 +3,7 @@ import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Observable, tap } from "rxjs";
 import { UserSkillsService } from "../../../core/user-skills.service";
+import { banWords } from "../validators/ban-words.validator";
 
 @Component({
     selector: 'app-reactive-forms-page',
@@ -46,7 +47,7 @@ import { UserSkillsService } from "../../../core/user-skills.service";
     // })
 
     form = this.fb.group({
-      firstName: ['Dmytro', [Validators.required, Validators.minLength(4)]],
+      firstName: ['Dmytro', [Validators.required, Validators.minLength(4), banWords(['test', 'dummy'])]],
       lastName: ['Mezhenskyi', [Validators.required, Validators.minLength(2)]],
       nickname: ['',
       {

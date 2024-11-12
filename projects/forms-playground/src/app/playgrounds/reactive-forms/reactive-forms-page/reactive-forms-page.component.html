@@ -2,6 +2,10 @@
     <div class="form-field">
       <label for="name">First Name</label>
       <input formControlName="firstName" type="text" id="name" placeholder="Enter your name">
+      <ng-container *ngIf="form.controls.firstName as firstName">
+        <div class="input-error" *ngIf="firstName.dirty && firstName.hasError('required')">required field</div>
+        <div class="input-error" *ngIf="firstName.dirty && firstName.hasError('minlength')">min length is <strong>{{firstName.getError('minlength').requiredLength}}</strong> character</div>
+      </ng-container>
     </div>
     <div class="form-field">
       <label for="last-name">Last Name</label>
