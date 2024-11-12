@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -14,11 +15,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class HeaderComponent implements OnInit {
 
   searchString = '';
+  reactiveSearchString = new FormControl('')
 
   constructor() { }
 
   ngOnInit(): void {
-    
+    this.reactiveSearchString.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(console.log)
+  }
+
+  findSomething(search: string) {
+    console.log(search, "search")
   }
 
 }
