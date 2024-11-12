@@ -1,6 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from "@angular/core";
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { Observable, tap } from "rxjs";
+import { UserSkillsService } from "../../../core/user-skills.service";
 
 @Component({
     selector: 'app-reactive-forms-page',
@@ -17,7 +19,10 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
   export class ReactiveFormsPageComponent implements OnInit {
     phoneLabels = ['Main', 'Mobile', 'Work', 'Home'];
     years =  this.getYears();
-  
+    skills$!: Observable<string[]>;
+
+    constructor(private userSkills: UserSkillsService) {}
+
     form = new FormGroup({
       firstName: new FormControl<string>('keti', {nonNullable: true}),
       lastName: new FormControl('khetsuriani'),
@@ -35,13 +40,16 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
           label: new FormControl(this.phoneLabels[0], { nonNullable: true}),
           phone: new FormControl('')
         })
-      ])
+      ]),
+      skills: new FormGroup<{[key: string]: FormControl<boolean>}>({})
     })
 
-    constructor() {
-    }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+      this.skills$ = this.userSkills.getSkills().pipe(
+        tap(skills => this.buildSkillControls(skills))
+      )
+    }
 
     addPhone() {
       this.form.controls.phones.insert(0,
@@ -64,5 +72,12 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
     private getYears() {
       const now = new Date().getUTCFullYear();
       return Array(now - (now - 40)).fill('').map((_, idx) => now - idx);
+    }
+
+    private buildSkillControls(skills: string[]) {
+      skills.forEach(skill => this.form.controls.skills.addControl(
+        skill,
+        new FormControl(false, { nonNullable: true})
+      ))
     }
 }

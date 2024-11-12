@@ -22,7 +22,7 @@
       <div class="form-field form-field--small">
         <label for="year-of-birth">Year of birth</label>
         <select formControlName="yearOfBirth" id="year-of-birth">
-          <option [value]="years">{{years}}</option>
+          <option *ngFor="let year of years" [value]="year">{{year}}</option>
         </select>
       </div>
       <div class="form-field form-field--small">
@@ -50,17 +50,27 @@
       <div class="control-buttons">
         <button class="add-button" (click)="addPhone()" type="button">+</button>
       </div>
-      <div class="form-field" *ngFor="let phone of form.controls.phones.controls; index as i">
+      <div class="form-field" *ngFor="let phone of form.controls.phones.controls; index as i" [formGroupName]="i">
         <label for="phone-{{i}}">Phone number</label>
-        <input [formControlName]="i" type="text" placeholder="Enter Phone Number" id="phone-{{i}}" />
-        <button class="add-button" (click)="removePhone(i)" type="button">-</button>
+        <div class="control-container">
+          <select class="phone-label-dropdown" formControlName="label">
+            <option *ngFor="let label of phoneLabels" [value]="label">{{label}}</option>
+          </select>
+          <input formControlName="phone" type="text" placeholder="Enter Phone Number" id="phone-{{i}}">
+          <button class="remove-button" (click)="removePhone(i)" type="button">-</button>
+        </div>
       </div>
     </fieldset>
-    <fieldset>
+    <fieldset formGroupName="skills">
       <legend>User Skills</legend>
-  
+      <ng-container *ngIf="skills$ | async as skills; else loading">
+        <div class="skill-container" *ngFor="let skill of skills">
+          <input type="checkbox" [formControlName]="skill" [id]="skill">
+          <label [for]="skill">{{ skill | titlecase }}</label>
+        </div>
+      </ng-container>
     </fieldset>
-    <fieldset >
+    <!-- <fieldset >
       <legend>Password</legend>
       <div class="form-field">
         <label for="password">Create Password</label>
@@ -70,7 +80,7 @@
         <label for="confirm-password">Confirm Password</label>
         <input  type="password" id="confirm-password" placeholder="Enter password...">
       </div>
-    </fieldset>
+    </fieldset> -->
     <button >Save</button>
     <button class="reset-button" type="reset">Reset</button>
   </form>
