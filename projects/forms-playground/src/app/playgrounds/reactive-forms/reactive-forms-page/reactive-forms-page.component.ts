@@ -15,26 +15,41 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
     changeDetection: ChangeDetectionStrategy.OnPush
   })
   export class ReactiveFormsPageComponent implements OnInit {
+    phoneLabels = ['Main', 'Mobile', 'Work', 'Home'];
+    years =  this.getYears();
+  
     form = new FormGroup({
-      firstName: new FormControl(''),
-      lastName: new FormControl(''),
+      firstName: new FormControl<string>('keti', {nonNullable: true}),
+      lastName: new FormControl('khetsuriani'),
       nickname: new FormControl(''),
-      email: new FormControl(''),
+      email: new FormControl('keti@gmail.com'),
       passport: new FormControl(''),
+      yearOfBirth: new FormControl(this.years[this.years.length - 1], { nonNullable: true}),
       address: new FormGroup({
-        fullAddress: new FormControl(''),
-        city: new FormControl(''),
-        postCode:  new FormControl(''),
+        fullAddress: new FormControl('', { nonNullable: true}),
+        city: new FormControl('', { nonNullable: true}),
+        postCode:  new FormControl(0, { nonNullable: true}),
       }),
       phones: new FormArray([
-        new FormControl('')
+        new FormGroup({
+          label: new FormControl(this.phoneLabels[0], { nonNullable: true}),
+          phone: new FormControl('')
+        })
       ])
     })
+
+    constructor() {
+    }
 
     ngOnInit(): void {}
 
     addPhone() {
-      this.form.controls.phones.insert(0, new FormControl(''))
+      this.form.controls.phones.insert(0,
+        new FormGroup({
+          label: new FormControl(this.phoneLabels[0], { nonNullable: true}),
+          phone: new FormControl('')
+        })
+      )
     }
 
     removePhone(index: number) {
@@ -42,6 +57,12 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
     }
 
     onSubmit(e: Event) {
+      this.form.controls.firstName.reset()
       console.log(this.form.value)
+    }
+
+    private getYears() {
+      const now = new Date().getUTCFullYear();
+      return Array(now - (now - 40)).fill('').map((_, idx) => now - idx);
     }
 }

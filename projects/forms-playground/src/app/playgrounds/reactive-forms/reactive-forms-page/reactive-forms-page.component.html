@@ -1,5 +1,4 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit($event)" class="form" >
-  <pre>{{form.value | json}}</pre>
     <div class="form-field">
       <label for="name">First Name</label>
       <input formControlName="firstName" type="text" id="name" placeholder="Enter your name">
@@ -22,9 +21,9 @@
     <div class="form-field-inline-group">
       <div class="form-field form-field--small">
         <label for="year-of-birth">Year of birth</label>
-        <!-- <select formControlName="yearOfBirth" id="year-of-birth">
-          <option [value]="year">{{year}}</option>
-        </select> -->
+        <select formControlName="yearOfBirth" id="year-of-birth">
+          <option [value]="years">{{years}}</option>
+        </select>
       </div>
       <div class="form-field form-field--small">
         <label for="passport">Passport Number</label>
