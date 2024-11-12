@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from "@angular/core";
-import { FormArray, FormControl, FormGroup, FormRecord, ReactiveFormsModule } from "@angular/forms";
+import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Observable, tap } from "rxjs";
 import { UserSkillsService } from "../../../core/user-skills.service";
 
@@ -21,30 +21,58 @@ import { UserSkillsService } from "../../../core/user-skills.service";
     years =  this.getYears();
     skills$!: Observable<string[]>;
 
-    constructor(private userSkills: UserSkillsService) {}
+    constructor(private userSkills: UserSkillsService, private fb: FormBuilder) {}
 
-    form = new FormGroup({
-      firstName: new FormControl<string>('keti', {nonNullable: true}),
-      lastName: new FormControl('khetsuriani'),
-      nickname: new FormControl(''),
-      email: new FormControl('keti@gmail.com'),
-      passport: new FormControl(''),
-      yearOfBirth: new FormControl(this.years[this.years.length - 1], { nonNullable: true}),
-      address: new FormGroup({
-        fullAddress: new FormControl('', { nonNullable: true}),
-        city: new FormControl('', { nonNullable: true}),
-        postCode:  new FormControl(0, { nonNullable: true}),
+    // form = new FormGroup({
+    //   firstName: new FormControl<string>('keti', {nonNullable: true}),
+    //   lastName: new FormControl('khetsuriani'),
+    //   nickname: new FormControl(''),
+    //   email: new FormControl('keti@gmail.com'),
+    //   passport: new FormControl(''),
+    //   yearOfBirth: new FormControl(this.years[this.years.length - 1], { nonNullable: true}),
+    //   address: new FormGroup({
+    //     fullAddress: new FormControl('', { nonNullable: true}),
+    //     city: new FormControl('', { nonNullable: true}),
+    //     postCode:  new FormControl(0, { nonNullable: true}),
+    //   }),
+    //   phones: new FormArray([
+    //     new FormGroup({
+    //       label: new FormControl(this.phoneLabels[0], { nonNullable: true}),
+    //       phone: new FormControl('')
+    //     })
+    //   ]),
+    //   // skills: new FormGroup<{[key: string]: FormControl<boolean>}>({})
+    //   skills: new FormRecord<FormControl<boolean>>({})
+    // })
+
+    form = this.fb.group({
+      firstName: ['Dmytro'],
+      lastName: ['Mezhenskyi'],
+      nickname: [''],
+      email: ['dmytro@decodedfrontend.io'],
+      yearOfBirth: this.fb.nonNullable.control(
+        this.years[this.years.length - 1],
+      ),
+      passport: [''],
+      address: this.fb.nonNullable.group({
+        fullAddress: [''],
+        city: [''],
+        postCode: [0]
       }),
-      phones: new FormArray([
-        new FormGroup({
-          label: new FormControl(this.phoneLabels[0], { nonNullable: true}),
-          phone: new FormControl('')
+      phones: this.fb.array([
+        this.fb.group({
+          label: this.fb.nonNullable.control(this.phoneLabels[0]),
+          phone: ''
         })
       ]),
-      // skills: new FormGroup<{[key: string]: FormControl<boolean>}>({})
-      skills: new FormRecord<FormControl<boolean>>({})
-    })
-
+      skills: this.fb.record<boolean>({}),
+      // password: this.fb.group({
+      //   password: ['', [Validators.required, Validators.minLength(6)]],
+      //   confirmPassword: ''
+      // }, {
+      //   validators: passwordShouldMatch
+      // })
+    });
 
     ngOnInit(): void {
       this.skills$ = this.userSkills.getSkills().pipe(
