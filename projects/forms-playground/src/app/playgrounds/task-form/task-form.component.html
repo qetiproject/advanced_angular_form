@@ -1,10 +1,10 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
     <input  type="text" formControlName="username"/>
     <div *ngIf="form.controls.username.pending">
         Username is pending...
     </div>
 
-    <app-dropdown formControlName="gender"></app-dropdown>
+    <app-dropdown formControlName="gender" [genders]="genders"></app-dropdown>
 
     <input  type="email" formControlName="email"/>
     <input  type="password" formControlName="password"/>

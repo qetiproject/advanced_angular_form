@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -14,35 +14,38 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       useExisting: forwardRef(() => DropdownComponent),
       multi: true
     }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DropdownComponent implements ControlValueAccessor {
+export class DropdownComponent implements ControlValueAccessor, OnInit {
+  @Input("genders") genders: any[] = [];
 
-  genders = [
-    { value: 'female', label: 'Female' },
-    { value: 'male', label: 'Male' },
-  ];
-  
-  value: string = ""
-  onChangeValue: string = ""
-
-  onTouch: any = () => {}
+  value: string = ''; 
+  onChangeFn: any = () => {}; 
+  onTouchFn: any = () => {};
 
   writeValue(value: string): void {
     this.value = value;
   }
 
-  registerOnChange(value: string): void {
-    this.onChangeValue = value
+  registerOnChange(fn: any): void {
+    this.onChangeFn = fn;
   }
 
   registerOnTouched(fn: any): void {
-    this.onTouch(fn)
+    this.onTouchFn = fn;
   }
 
   onChange(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value
-    console.log(value)
+    const value = (event.target as HTMLSelectElement).value;
+    this.value = value;
+
+    this.onChangeFn(value);
+
+    this.onTouchFn();
+  }
+
+  ngOnInit(): void {
   }
 
 }

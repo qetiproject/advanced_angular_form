@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators,  } from '@angular/forms';
+import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators,  } from '@angular/forms';
 import { UniqueUsernameValidator } from '../unique_username.service';
-import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { DropdownComponent } from "../dropdown/dropdown.component";
 
 @Component({
@@ -18,8 +18,13 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   @ViewChild(FormGroupDirective)
   formDir!: FormGroupDirective;
 
-  private destroyed$!: Subscription;
+  search: string = ""
 
+  genders = [
+    { value: 'female', label: 'Female' },
+    { value: 'male', label: 'Male' },
+  ];
+  
   constructor(
     private fb: FormBuilder,
     private uniqueUsername: UniqueUsernameValidator,
@@ -47,22 +52,17 @@ export class TaskFormComponent implements OnInit, OnDestroy {
    this.pendingState = this.form.statusChanges.pipe(
     filter(pendingState => pendingState === "PENDING")
    ).subscribe(() => this.cd.markForCheck());
-   this.form.controls.gender.valueChanges.pipe(
-    debounceTime(300),
-    distinctUntilChanged()
-   ).subscribe((value) => console.log(value, "value")
-   );
   }
 
-  onSubmit(event: Event): void {
+  onSubmit(): void {
     console.log(this.form.value)
     this.formDir.resetForm();
   }
 
   ngOnDestroy(): void {
     this.pendingState.unsubscribe();
-    this.destroyed$.unsubscribe();
   }
+
 
 
 }
