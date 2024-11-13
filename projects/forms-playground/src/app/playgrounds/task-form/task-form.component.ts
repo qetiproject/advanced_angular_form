@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators,  } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators,  } from '@angular/forms';
 import { UniqueUsernameValidator } from '../unique_username.service';
 import { filter, Subscription } from 'rxjs';
 import { DropdownComponent } from "../dropdown/dropdown.component";
@@ -45,8 +45,42 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     ],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{6,}')]],
-    gender: ['', Validators.required]
+    gender: ['', Validators.required],
+   
+    addAddressOption: [''],
+    addresses: this.fb.array([])
   });
+
+  get addresses(): FormArray {
+    return this.form.get('addresses') as FormArray;
+  }
+
+  onAddressOptionChange(event: Event): void {
+    const option = (event.target as HTMLSelectElement).value
+    console.log(option)
+    if(option === 'add') {
+      this.addAddress()
+    }else {
+      this.removeAddress()
+    }
+  }
+
+  addAddress() {
+    const addressGroup = this.fb.group({
+        street: ['', [Validators.required]],
+        zipcode: [0, Validators.pattern('[0-9]{5}')],
+        city: ['', Validators.required],
+        country: ['', Validators.required]
+      })
+
+    this.addresses.push(addressGroup);
+  }
+
+  removeAddress() {
+    while(this.addresses.length) {
+      this.addresses.removeAt(0)
+    }
+  }
 
   ngOnInit(): void {
    this.pendingState = this.form.statusChanges.pipe(
