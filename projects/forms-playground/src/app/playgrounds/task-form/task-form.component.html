@@ -4,9 +4,7 @@
         Username is pending...
     </div>
 
-    <!-- <div *ngIf="form.controls.username.hasError('uniqueUsername')?.isTaken">
-        <small>Username is already taken.</small>
-    </div> -->
+    <app-dropdown formControlName="gender"></app-dropdown>
 
     <input  type="email" formControlName="email"/>
     <input  type="password" formControlName="password"/>
