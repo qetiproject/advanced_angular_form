@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsM
 import { UniqueUsernameValidator } from '../unique_username.service';
 import { filter, Subscription } from 'rxjs';
 import { DropdownComponent } from "../dropdown/dropdown.component";
+import { passwordLengthValidator } from '../password.validator';
 
 @Component({
   selector: 'app-task-form',
@@ -44,7 +45,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       { updateOn: 'blur' } 
     ],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{6,}')]],
+    password: ['', [Validators.required,passwordLengthValidator()]],
     gender: ['', Validators.required],
    
     addAddressOption: [''],
