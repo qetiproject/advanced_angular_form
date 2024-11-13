@@ -1,1 +1,15 @@
-<p>task-form works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <input  type="text" formControlName="username"/>
+    <div *ngIf="form.controls.username.pending">
+        Username is pending...
+    </div>
+
+    <!-- <div *ngIf="form.controls.username.hasError('uniqueUsername')?.isTaken">
+        <small>Username is already taken.</small>
+    </div> -->
+
+    <input  type="email" formControlName="email"/>
+    <input  type="password" formControlName="password"/>
+
+    <button > save</button>
+</form>
