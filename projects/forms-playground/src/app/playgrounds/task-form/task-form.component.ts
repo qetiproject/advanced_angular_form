@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators,  } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators,  } from '@angular/forms';
 import { UniqueUsernameValidator } from '../unique_username.service';
-import { filter, Subscription } from 'rxjs';
+import { debounceTime, filter, map, Subscription, switchMap } from 'rxjs';
 import { DropdownComponent } from "../dropdown/dropdown.component";
 import { passwordLengthValidator } from '../password.validator';
+import { EmailValidatorService } from '../email.service';
 
 @Component({
   selector: 'app-task-form',
@@ -30,6 +31,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private uniqueUsername: UniqueUsernameValidator,
     private cd: ChangeDetectorRef,
+    private emailService: EmailValidatorService
   ) { }
 
   form = this.fb.group({
@@ -65,6 +67,14 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       this.removeAddress()
     }
   }
+
+  // emailAsyncValidator(control: FormControl) {
+  //   return control.valueChanges.pipe(
+  //     debounceTime(300),
+  //     switchMap(value => this.emailService.checkEmailExists(value)),
+  //     map((exists => exists ? { emailTaken: true} : null))
+  //   )
+  // }
 
   addAddress() {
     const addressGroup = this.fb.group({
