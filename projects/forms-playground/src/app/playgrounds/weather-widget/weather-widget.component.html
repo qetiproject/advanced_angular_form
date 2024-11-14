@@ -1,0 +1,12 @@
+<div>
+    <ng-container [ngTemplateOutlet]="headerTemplate || defaultWidgetHeader"></ng-container>
+    <ng-template #defaultWidgetHeader>
+        <h2>Weather Forecast</h2>
+    </ng-template>
+</div>
+<div>
+    <ng-container [ngTemplateOutlet]="contentTemplate || defaultContentTemplate"></ng-container>
+    <ng-template #defaultContentTemplate>
+        <p>weather container content</p>
+    </ng-template>
+</div>
