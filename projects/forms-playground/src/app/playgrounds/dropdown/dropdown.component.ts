@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-dropdown',
@@ -19,10 +20,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class DropdownComponent implements ControlValueAccessor, OnInit {
   @Input("genders") genders: any[] = [];
+  searchSubject: Subject<string> = new Subject<string>();
 
   value: string = ''; 
-  onChangeFn: any = () => {}; 
-  onTouchFn: any = () => {};
+  onChangeFn: (value: string) => void = () => {}; 
+  onTouchFn: () => void = () => {};
 
   writeValue(value: string): void {
     this.value = value;
@@ -46,6 +48,18 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit(): void {
+    // this.searchSubject.pipe(
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    // ).subscribe(
+    //   (value) => {
+    //     this.onChangeFn(value),
+    //     this.searchItems(value)
+    //   }
+    // )
   }
 
+  searchItems(value: string): void {
+
+  }
 }

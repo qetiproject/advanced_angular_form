@@ -1,3 +1,5 @@
 <select [value]="value" (change)="onChange($event)">
-    <option *ngFor="let gender of genders" [value]="gender.value">{{gender.label}}</option>
+    <option *ngFor="let gender of genders" [value]="gender.key">{{gender.value}}</option>
 </select>
+
+<!-- <input  placeholder="search" [(ngModel)]="searchValue"  (ngModelChange)="onChange($event)"/> -->

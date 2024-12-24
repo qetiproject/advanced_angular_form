@@ -5,8 +5,10 @@
     </ng-template>
 </div>
 <div>
-    <ng-container [ngTemplateOutlet]="contentTemplate || defaultContentTemplate"></ng-container>
-    <ng-template #defaultContentTemplate>
+    <!-- <ng-container
+    [ngTemplateOutlet]="contentTemplate || defaultWidgetContent"
+    [ngTemplateOutletContext]="{ $implicit: state }"></ng-container>
+    <ng-template #defaultWidgetContent>
         <p>weather container content</p>
-    </ng-template>
+    </ng-template> -->
 </div>

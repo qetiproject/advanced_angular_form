@@ -26,7 +26,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     { value: 'female', label: 'Female' },
     { value: 'male', label: 'Male' },
   ];
-  
+
   constructor(
     private fb: FormBuilder,
     private uniqueUsername: UniqueUsernameValidator,
