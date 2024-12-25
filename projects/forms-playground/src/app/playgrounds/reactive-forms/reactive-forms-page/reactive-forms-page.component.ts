@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroupDirective, FormBuilder, FormControl, FormGroup, FormRecord, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroupDirective, FormBuilder, FormControl, FormGroup, FormRecord, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
 import { bufferCount, filter, Observable, startWith, Subscription, tap } from 'rxjs';
 import { UserSkillsService } from '../../../core/user-skills.service';
 import { banWords } from '../validators/ban-words.validator';
@@ -29,48 +29,25 @@ export class ReactiveFormsPageComponent implements OnInit, OnDestroy {
   skills$!: Observable<string[]>;
   showErrorStrategy = new OnTouchedErrorStateMatcher();
 
-  form = this.fb.group({
-    firstName: ['Dmytro', [Validators.required, Validators.minLength(4), banWords(['test', 'dummy'])]],
-    lastName: ['Mezhenskyi', [Validators.required, Validators.minLength(2)]],
-    nickname: ['',
-    {
-      validators: [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.pattern(/^[\w.]+$/),
-        banWords(['dummy', 'anonymous'])
-      ],
-      asyncValidators: [
-        this.uniqueNickname.validate.bind(this.uniqueNickname)
-      ],
-      updateOn: 'blur'
-    },
-
-  ],
-    email: ['dmytro@decodedfrontend.io', [Validators.email, Validators.required]],
-    yearOfBirth: this.fb.nonNullable.control(
-      this.years[this.years.length - 1],
-      Validators.required
-    ),
-    passport: ['', [Validators.pattern(/^[A-Z]{2}[0-9]{6}$/)]],
-    address: this.fb.nonNullable.group({
-      fullAddress: ['', Validators.required],
-      city: ['', Validators.required],
-      postCode: [0, Validators.required]
+  form = new FormGroup({
+    firstName: new FormControl<string>(('Dmytro'), { nonNullable: true}),
+    lastName: new FormControl('Mezhenskyi'),
+    nickname: new FormControl(''),
+    email: new FormControl('dmytro@decodedfrontend.io'),
+    yearOfBirth: new FormControl(this.years[this.years.length - 1], {nonNullable: true}),
+    passport: new FormControl(''),
+    address: new FormGroup({
+      fullAddress: new FormControl('', {nonNullable: true}),
+      city: new FormControl('', { nonNullable: true}),
+      postCode: new FormControl(0,  {nonNullable: true})
     }),
-    phones: this.fb.array([
-      this.fb.group({
-        label: this.fb.nonNullable.control(this.phoneLabels[0]),
-        phone: ''
+    phones: new FormArray([
+      new FormGroup({
+        label: new FormControl(this.phoneLabels[0]),
+        phone: new FormControl('')
       })
     ]),
-    skills: this.fb.record<boolean>({}),
-    password: this.fb.group({
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ''
-    }, {
-      validators: passwordShouldMatch
-    })
+    skills: new FormGroup<{[key: string]: FormControl<boolean>}>({})
   });
 
   private ageValidators!: Subscription;
@@ -89,25 +66,10 @@ export class ReactiveFormsPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    // this.form.controls.firstName.reset() // setValue(null)
     this.skills$ = this.userSkills.getSkills().pipe(
-      tap(skills => this.buildSkillControls(skills)),
-      tap(() => this.initialFormValues = this.form.value)
-    );
-    this.ageValidators = this.form.controls.yearOfBirth.valueChanges.pipe(
-      tap(() => this.form.controls.passport.markAsDirty()),
-      startWith(this.form.controls.yearOfBirth.value)
-    ).subscribe(
-      yearOfBirth => {
-        this.isAdult(yearOfBirth)
-          ? this.form.controls.passport.addValidators(Validators.required)
-          : this.form.controls.passport.removeValidators(Validators.required);
-        this.form.controls.passport.updateValueAndValidity();
-      }
-    );
-    this.formPendingState = this.form.statusChanges.pipe(
-      bufferCount(2, 1),
-      filter(([prevState]) => prevState === 'PENDING')
-    ).subscribe(() => this.cd.markForCheck())
+      tap(skills => this.buildSkillControls(skills))
+    )
   }
 
   ngOnDestroy(): void {
@@ -116,12 +78,12 @@ export class ReactiveFormsPageComponent implements OnInit, OnDestroy {
   }
 
   addPhone() {
-    this.form.controls.phones.insert(0,
-      new FormGroup({
-        label: new FormControl(this.phoneLabels[0], { nonNullable: true }),
-        phone: new FormControl('')
-      })
-    )
+   this.form.controls.phones.insert(0,
+    new FormGroup({
+      label: new FormControl(this.phoneLabels[0]),
+      phone: new FormControl('')
+    })
+   )
   }
 
   removePhone(index: number) {
