@@ -10,6 +10,12 @@ import { DynamicValidatorMessage } from '../../../core/dynamic-validator-message
 import { OnTouchedErrorStateMatcher } from '../../../core/input-error/error-state-matcher.service';
 import { ValidatorMessageContainer } from '../../../core/input-error/validator-message-container.directive';
 
+interface Address {
+  fullAddress: FormControl<string>,
+  city?: FormControl<string>,
+  postCode?: FormControl<number>
+}
+
 @Component({
   selector: 'app-reactive-forms-page',
   standalone: true,
@@ -36,10 +42,8 @@ export class ReactiveFormsPageComponent implements OnInit, OnDestroy {
     email: new FormControl('dmytro@decodedfrontend.io'),
     yearOfBirth: new FormControl(this.years[this.years.length - 1], {nonNullable: true}),
     passport: new FormControl(''),
-    address: new FormGroup({
-      fullAddress: new FormControl('', {nonNullable: true}),
-      city: new FormControl('', { nonNullable: true}),
-      postCode: new FormControl(0,  {nonNullable: true})
+    address: new FormGroup<Address>({
+      fullAddress: new FormControl('', {nonNullable: true})
     }),
     phones: new FormArray([
       new FormGroup({
@@ -47,7 +51,8 @@ export class ReactiveFormsPageComponent implements OnInit, OnDestroy {
         phone: new FormControl('')
       })
     ]),
-    skills: new FormGroup<{[key: string]: FormControl<boolean>}>({})
+    // skills: new FormGroup<{[key: string]: FormControl<boolean>}>({}) // igivea FormRecord 
+    skills: new FormRecord<FormControl<boolean>>({})
   });
 
   private ageValidators!: Subscription;
