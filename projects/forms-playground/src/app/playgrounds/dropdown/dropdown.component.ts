@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   standalone: true,
   providers: [
     {
@@ -21,6 +21,8 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 export class DropdownComponent implements ControlValueAccessor, OnInit {
   @Input("genders") genders: any[] = [];
   searchSubject: Subject<string> = new Subject<string>();
+
+  reactiveSearchString = new FormControl('')
 
   value: string = ''; 
   onChangeFn: (value: string) => void = () => {}; 
@@ -57,6 +59,12 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
     //     this.searchItems(value)
     //   }
     // )
+    // standalone formcontrols
+    // this.reactiveSearchString.valueChanges.pipe(
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    //   // swichmap(string => ...http.call(string...))
+    // ).subscribe(console.log)
   }
 
   searchItems(value: string): void {
