@@ -93,6 +93,7 @@ export class ReactiveFormsPageComponent implements OnInit, OnDestroy {
       tap(skills => this.buildSkillControls(skills)),
       tap(() => this.initialFormValues = this.form.value)
     );
+    //add and remove validators
     this.ageValidators = this.form.controls.yearOfBirth.valueChanges.pipe(
       tap(() => this.form.controls.passport.markAsDirty()),
       startWith(this.form.controls.yearOfBirth.value)
