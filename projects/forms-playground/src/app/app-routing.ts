@@ -15,4 +15,10 @@ export const routes: Routes = [
       () => import('./playgrounds/reactive-forms/reactive-forms-page/reactive-forms-page.component')
         .then(m => m.ReactiveFormsPageComponent)
   },
+  {
+    path: 'custom-rating-picker',
+    title: 'Custom Rating Picker Playground',
+    loadComponent: () => import('./playgrounds/custom-rating-picker/raing-picker-page/raing-picker-page.component').then(m => m.RaingPickerPageComponent)
+  },
+  
 ];
