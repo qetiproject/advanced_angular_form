@@ -1,1 +1,5 @@
-<p>select works!</p>
+<div class="label">{{label}}</div>
+<div class="control">
+    <span class="selected-value" [ngClass]="{empty: !value}">{{value || 'Nothing'}}</span>
+    <span class="drop-down-icon">c</span>
+</div>

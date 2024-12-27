@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'cfc-select',
@@ -7,6 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectComponent implements OnInit {
 
+  @Input()
+  label = ''
+
+  @Input()
+  value: string | null = null;
+
+  
   constructor() { }
 
   ngOnInit(): void {
