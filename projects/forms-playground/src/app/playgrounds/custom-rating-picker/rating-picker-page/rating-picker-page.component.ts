@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } fr
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import '@polymer/paper-input/paper-textarea';
 import { EditableContentValueAccessor } from '../value-accessor/editable-content.directive';
+import { RatingPickerComponent } from 'projects/custom-form-controls/src/public-api';
 
 @Component({
   selector: 'app-rating-picker-page',
@@ -12,7 +13,7 @@ import { EditableContentValueAccessor } from '../value-accessor/editable-content
     './rating-picker-page.component.scss'
   ],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, EditableContentValueAccessor],
+  imports: [CommonModule, ReactiveFormsModule, EditableContentValueAccessor, RatingPickerComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
