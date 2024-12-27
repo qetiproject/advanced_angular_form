@@ -1,5 +1,17 @@
-<div class="label">{{label}}</div>
-<div class="control">
-    <span class="selected-value" [ngClass]="{empty: !value}">{{value || 'Nothing'}}</span>
-    <span class="drop-down-icon">c</span>
+<div class="label">{{ label }}</div>
+<div class="control" cdkOverlayOrigin #origin="cdkOverlayOrigin">
+  <button *ngIf="value" class="clear-button">clear</button>
+  <span class="drop-down-icon">👇</span>
 </div>
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="isOpen"
+  [cdkConnectedOverlayOffsetY]="8"
+  [cdkConnectedOverlayOffsetX]="-11"
+  cdkConnectedOverlayHasBackdrop
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop">
+  <div class="panel">
+    <ng-content></ng-content>
+  </div>
+</ng-template>
