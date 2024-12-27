@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import '@polymer/paper-input/paper-textarea';
+import { EditableContentValueAccessor } from '../value-accessor/editable-content.directive';
 
 @Component({
   selector: 'app-rating-picker-page',
@@ -11,7 +12,7 @@ import '@polymer/paper-input/paper-textarea';
     './rating-picker-page.component.scss'
   ],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, EditableContentValueAccessor],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -21,12 +22,16 @@ export class RatingPickerPageComponent implements OnInit {
     reviewText: ''
   })
   
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) { 
+    // setTimeout(() => {
+    //   this.form.controls.reviewText.setValue('Changed Hello')
+    // })
+    // this.form.controls.reviewText.disable() //if you want to make disable
+  }
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-    console.log(this.form.value)
     this.form.reset()
   }
 
