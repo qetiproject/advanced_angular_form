@@ -13,6 +13,6 @@
   (backdropClick)="close()"
   (detach)="close()">
   <div class="panel" [@dropDown] (@dropDown.done)="onPanelAnimationDone($event)">
-    I am a panel!
+   <ng-content></ng-content>
   </div>
 </ng-template>
