@@ -1,7 +1,6 @@
 <div class="label">{{ label }}</div>
 <div class="control" cdkOverlayOrigin #origin="cdkOverlayOrigin">
-  <button *ngIf="value" class="clear-button">clear</button>
-  <span class="drop-down-icon">👇</span>
+  <span class="selected-value" [ngClass]="{empty: !value}">{{ value || 'Nothing is selected...'}}</span>
 </div>
 <ng-template
   cdkConnectedOverlay
@@ -10,8 +9,10 @@
   [cdkConnectedOverlayOffsetY]="8"
   [cdkConnectedOverlayOffsetX]="-11"
   cdkConnectedOverlayHasBackdrop
-  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop">
-  <div class="panel">
-    <ng-content></ng-content>
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="close()"
+  (detach)="close()">
+  <div class="panel" [@dropDown] (@dropDown.done)="onPanelAnimationDone($event)">
+    I am a panel!
   </div>
 </ng-template>
